@@ -1,6 +1,7 @@
 // @flow
-'use strict'
 
-let greeting : string = "Hello, World!";
-
-console.log(greeting);
+module.exports = {
+  greetings: function() {
+    console.log("Hello, World!");
+  }
+}

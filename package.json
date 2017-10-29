@@ -4,7 +4,7 @@
   "description": "Library with API for eth.ly",
   "scripts": {
     "build": "gulp build",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "test": "gulp test"
   },
   "repository": {
