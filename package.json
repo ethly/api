@@ -1,0 +1,37 @@
+{
+  "name": "ethly-api",
+  "version": "0.0.1",
+  "description": "Library with API for eth.ly",
+  "scripts": {
+    "build": "gulp build",
+    "prepublish": "npm run build",
+    "test": "gulp test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ethly/api.git"
+  },
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "link"
+  ],
+  "author": "eth.ly",
+  "homepage": "https://github.com/ethly",
+  "license": "GPL-3.0",
+  "main": "build/index.js",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.0.0",
+    "flow-bin": "^0.57.3",
+    "flow-typed": "^2.2.1",
+    "gulp-babel": "^7.0.0",
+    "gulp-flow-remove-types": "^1.0.0",
+    "gulp-flowtype-opensrcken": "^1.0.0",
+    "gulp-jasmine": "^2.4.2",
+    "gulp-run": "^1.7.1",
+    "gulp": "^3.9.1",
+    "jasmine": "^2.8.0",
+    "lazypipe": "^1.0.1"
+  }
+}
