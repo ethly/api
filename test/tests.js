@@ -1,7 +1,13 @@
 // @flow
 
-describe("Temporary Test", function() {
-  it("is a simple math", function() {
-    expect(2 + 2).toBe(4);
-  });
-});
+import * as Api from '../src/'
+
+describe('Api', function() {
+  it('returns not null', function(done) {
+    Api.getAllLinks('')
+      .then(list => {
+        expect(list).not.toBeNull()
+      })
+      .then(done)
+  })
+})

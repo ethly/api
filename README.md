@@ -6,4 +6,5 @@ API for the Link Storage
 - Install: `npm install`
 - Build: `npm run build`
 - Test: `npm run test`
+- Lint: `npm run lint`
 - Run: `node build`
