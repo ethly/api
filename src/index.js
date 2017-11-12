@@ -1,5 +1,6 @@
 // @flow
-import SmartContract, {
+import {
+  SmartContract,
   Link,
 } from './model'
 import type {

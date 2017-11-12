@@ -28,7 +28,7 @@ export class Link {
 /**
   Represents a smart contract that stores links
 */
-export default class SmartContract {
+export class SmartContract {
   developerWallet: EthereumAddress;
   links: Array<Link>;
 
