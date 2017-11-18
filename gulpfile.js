@@ -3,4 +3,4 @@
 const gulp = require('gulp');
 const setupBuild = require('ethly-deploy');
 
-setupBuild(gulp, 'src', 'test', 'build', 'build_test');
+setupBuild(gulp, 'src', 'build', 'build_test');

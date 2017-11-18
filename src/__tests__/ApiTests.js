@@ -1,6 +1,6 @@
 // @flow
 
-import * as Api from '../src/'
+import * as Api from 'index'
 
 describe('Api', function() {
   it('returns not null', function(done) {

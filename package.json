@@ -23,7 +23,6 @@
   "main": "build/index.js",
   "dependencies": {},
   "devDependencies": {
-    "babel-preset-env": "^1.0.0",
     "ethly-deploy": "ethly/deploy",
     "flow-bin": "^0.57.3",
     "flow-typed": "^2.2.1",

@@ -2,11 +2,11 @@
 import {
   SmartContract,
   Link,
-} from './model'
+} from 'model'
 import type {
   HashTag,
   EthereumAddress,
-} from './model'
+} from 'model'
 
 /**
   Add a link to the contract
