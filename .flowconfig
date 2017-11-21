@@ -1,9 +1,12 @@
 [ignore]
+.*/build/.*
+.*/build_test/.*
+.*/node_modules/.*/test/.*
 
 [include]
 
 [libs]
-flow-typed/
+flow-typed
 
 [lints]
 

@@ -1,16 +1,12 @@
 // @flow
 
 export type HashTag = string;
-export type EthereumAddress = string;
 
-/**
-  Represents a link, stored in the contract
-*/
 export class Link {
-  label: string;
   url: string;
-  hashtags: Array<HashTag>;
+  label: string;
   description: string;
+  hashtags: Array<HashTag>;
 
   constructor(
     url: string,
@@ -23,20 +19,26 @@ export class Link {
     this.description = description
     this.hashtags = hashtags
   }
+
+  getMergedHashtags(): string {
+    return this.hashtags.join('#')
+  }
 }
 
 /**
-  Represents a smart contract that stores links
+  Represents a link, stored in the contract
 */
-export class SmartContract {
-  developerWallet: EthereumAddress;
-  links: Array<Link>;
+export class StoredLink extends Link {
+  timestamp: number;
 
   constructor(
-    developerWallet: EthereumAddress,
-    links: Array<Link>,
+    url: string,
+    label: string,
+    description: string,
+    hashtags: Array<HashTag>,
+    timestamp: number,
   ) {
-    this.developerWallet = developerWallet
-    this.links = links
+    super(url, label, description, hashtags)
+    this.timestamp = timestamp
   }
 }
