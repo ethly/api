@@ -1,74 +1,147 @@
 // @flow
+import Web3, {
+  type Web3Instance,
+  type SmartContract,
+} from 'web3'
+import LinkStorage from 'ethly-smart-contract'
+
 import {
-  SmartContract,
   Link,
+  StoredLink,
 } from 'model'
+
 import type {
-  HashTag,
+  EthereumClient,
   EthereumAddress,
-} from 'model'
+  Password,
+  TransactionDraft,
+  AddLinkTransaction,
+  SignedTransaction,
+  TransactionReceipt,
+} from 'model/Ethereum'
 
-/**
-  Add a link to the contract
+// export type * from 'model/Ethereum';
 
-  @param contractAddress - The adress of the contract with links
-  @param link - The link itself
-*/
-export function addLink(
-  contractAddress: EthereumAddress,
-  link: Link,
-): Promise<Link> {
-  return Promise.resolve(
-    link,
-  )
-}
+export default class EthlyApi {
+  web3: Web3Instance;
+  contractAddress: EthereumAddress;
+  instance: SmartContract;
 
-/**
-  Get full information about a deployed contract
+  constructor(
+    client: EthereumClient,
+    contractAddress: EthereumAddress,
+  ) {
+    this.web3 = new Web3(new Web3.providers.HttpProvider(
+      client.address,
+      client.timeout,
+      client.username,
+      client.password,
+    ))
+    this.contractAddress = contractAddress
+    this.instance = new this.web3.eth.Contract(LinkStorage.abi, contractAddress)
+  }
 
-  @param contractAddress - The address of the contract
-*/
-export function getContract(
-  contractAddress: EthereumAddress,
-): Promise<SmartContract> {
-  return Promise.reject(
-    new Error('Not Implemented Yet'),
-  )
-}
+  /**
+    Add a link to the contract
 
-/**
-  Get all links by a specified address
+    @param link - The link itself
+  */
+  addLink(
+    link: Link,
+    draft: TransactionDraft,
+    password: Password,
+  ): Promise<TransactionReceipt> {
+    const transaction = this.getAddLinkTransaction(link, draft)
+    return this.web3.eth.accounts.signTransaction(
+      transaction,
+      password
+    ).then(signed => {
+      return this.executeSignedTransaction(
+        signed.rawTransaction
+      )
+    })
+  }
 
-  @param contractAddress - The address of the contract
-*/
-export function getAllLinks(
-  contractAddress: EthereumAddress,
-): Promise<Array<Link>> {
-  return Promise.resolve([])
-}
+  getAddLinkTransaction(
+    link: Link,
+    draft: TransactionDraft,
+  ): AddLinkTransaction {
+    const data: string = this.instance.methods.addLink(
+      link.url,
+      link.label,
+      link.description,
+      link.getMergedHashtags(),
+    ).encodeABI()
+    return {
+      from: draft.from,
+      to: this.contractAddress,
+      value: 0,
+      gas: draft.gas,
+      gasPrice: draft.gasPrice,
+      data: data,
+      nonce: draft.nonce,
+    }
+  }
 
-/**
-  Get links by hashtag in a specific contract
+  executeSignedTransaction(
+    transaction: SignedTransaction,
+  ): Promise<TransactionReceipt> {
+    return this.web3.eth.sendSignedTransaction(transaction)
+  }
 
-  @param contractAddress - The address of the contract
-  @param hashtag - The hashtag to search links with
-*/
-export function getLinksByHashTag(
-  contractAddress: EthereumAddress,
-  hashtag: HashTag,
-): Promise<Array<Link>> {
-  return Promise.resolve([])
-}
+  getLinksCount(): Promise<number> {
+    return this.instance.methods.getLinksCount().call()
+  }
 
-/**
-  Get links submitted by the user
+  getLinkAt(index: number): Promise<?StoredLink> {
+    if (index < 0) {
+      return Promise.reject(
+        new Error('Negative index is not allowed')
+      )
+    }
+    return this.instance.methods.getLinkAt(index).call().then(
+      result => {
+        if (!result.exists) {
+          return null
+        }
+        return new StoredLink(
+          result.url,
+          result.label,
+          result.description,
+          result.hashtags.split('#'),
+          result.timestamp,
+        )
+      }
+    )
+  }
 
-  @param contractAddress - The addres of the contract
-  @param userAddress - The address of the user
-*/
-export function getLinksByUser(
-  contractAddress: EthereumAddress,
-  userAddress: EthereumAddress,
-): Promise<Array<Link>> {
-  return Promise.resolve([])
+  /**
+    Get all links by a specified address
+
+    @param contractAddress - The address of the contract
+  */
+  getAllLinks(): Promise<Array<StoredLink>> {
+    return this.getLinksSince(0)
+  }
+
+  /**
+    Get links by a specified address
+
+    @param contractAddress - The address of the contract
+  */
+  getLinksSince(
+    since: number,
+  ): Promise<Array<StoredLink>> {
+    return this.getLinksCount()
+      .then(count => {
+        if (since >= count) {
+          return Promise.resolve([])
+        }
+        const indices = [
+          ...Array(count - since).keys(),
+        ].map(ind => ind + since)
+        return Promise.all(indices.map(index => this.getLinkAt(index)))
+      })
+      .then(links => links.filter(Boolean))
+  }
 }
