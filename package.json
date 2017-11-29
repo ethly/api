@@ -1,6 +1,6 @@
 {
   "name": "ethly-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Library with API for eth.ly",
   "scripts": {
     "build": "gulp build",
@@ -25,14 +25,16 @@
     "extends": "ethly"
   },
   "dependencies": {
-    "ethly-smart-contract": "ethly/smart-contract#v0.0.2",
+    "ethly-smart-contract": "ethly/smart-contract",
     "web3": "^1.0.0-beta.26"
   },
   "devDependencies": {
     "eslint-config-ethly": "ethly/eslint-config",
+    "ethereumjs-testrpc": "^6.0.3",
     "ethly-deploy": "ethly/deploy",
     "flow-bin": "^0.57.3",
     "flow-typed": "^2.2.1",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "minimist": "^1.2.0"
   }
 }

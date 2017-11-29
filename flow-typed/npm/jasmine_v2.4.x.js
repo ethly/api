@@ -88,5 +88,6 @@ declare var jasmine: {
   arrayContaining(val: mixed[]): void,
   stringMatching(val: string): void,
   clock(): JasmineClockType,
-  addMatchers(val: JasmineMatchers): void
+  addMatchers(val: JasmineMatchers): void,
+  DEFAULT_TIMEOUT_INTERVAL: number,
 }
