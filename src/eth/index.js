@@ -1,7 +1,7 @@
 // @flow
 
 export type EthereumAddress = string;
-export type Password = string;
+export type PrivateKey = string;
 
 export type BigNumber = number | string;
 
@@ -13,15 +13,11 @@ export type TransactionDraft = {
   nonce ?: number,
 };
 
-export type AddLinkTransaction = {
-  from: EthereumAddress,
+export type WithReceiver = {
   to: EthereumAddress,
-  value: 0,
-  data: string,
-  gas ?: BigNumber,
-  gasPrice ?: BigNumber,
-  nonce ?: number,
 }
+
+export type AddLinkTransaction = TransactionDraft & WithReceiver
 
 export type SignedTransaction = string;
 
@@ -31,10 +27,3 @@ export type TransactionReceipt = {
   to: EthereumAddress,
   gasUsed: number,
 };
-
-export type EthereumClient = {
-  address: string,
-  timeout ?: number,
-  username ?: string,
-  password ?: string,
-}

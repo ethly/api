@@ -1,6 +1,7 @@
 // @flow
 /* eslint-disable flowtype/no-weak-types */
 
-declare module 'ethly-smart-contract' {
+declare module 'ethereumjs-testrpc' {
   declare module.exports: any
+  declare type TestRPCParams = any
 }
