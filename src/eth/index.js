@@ -1,5 +1,7 @@
 // @flow
 
+export * from 'eth/Client'
+
 export type EthereumAddress = string;
 export type PrivateKey = string;
 
