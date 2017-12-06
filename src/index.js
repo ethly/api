@@ -12,6 +12,7 @@ import {
 } from 'model'
 
 import type {
+  EthereumClient,
   EthereumAddress,
   PrivateKey,
   TransactionDraft,
@@ -20,11 +21,10 @@ import type {
   TransactionReceipt,
 } from 'eth'
 
-import {
-  type EthereumClient,
-} from 'eth/Client'
+import * as eth from 'eth'
 
 export {
+  eth,
   Link,
   StoredLink,
 }
